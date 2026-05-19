@@ -6,97 +6,97 @@ Este documento descreve as entidades e atributos necessários para modelar o ban
 
 ---
 
-## 🧑‍💼 Entidade: Cliente
+## 🧑‍💼 Entidade: cliente
 
 Armazena as informações dos usuários que realizam pedidos.
 
 **Atributos:**
 
-* `id_cliente` (PK) — Identificador único do cliente
-* `nome` — Nome completo
-* `cpf` — CPF do cliente
-* `telefone` — Número de telefone
-* `email` — Endereço de e-mail
-* `endereco_entrega` — Endereço para entrega
+* `idClnt` (PK) — Identificador único do cliente
+* `nomClnt` — Nome completo
+* `numCPFClnt` — CPF do cliente
+* `numTelefoneClnt` — Número de telefone
+* `dscEmailClnt` — Endereço de e-mail
+* `dscEnderecoClnt` — Endereço para entrega contendo: `dscTipoLogradouroClnt`, `nomLogradouroClnt`, `numLogradouroClnt`, `dscComplementoClnt`, `dscBairroClnt`, `numCepClnt`, `dscCidadeClnt`, `dscEstadoClnt`
 
 ---
 
-## 🍽️ Entidade: Restaurante
+## 🍽️ Entidade: restaurante
 
 Representa os estabelecimentos cadastrados na plataforma.
 
 **Atributos:**
 
-* `id_restaurante` (PK) — Identificador único do restaurante
-* `razao_social` — Nome jurídico da empresa
-* `cnpj` — CNPJ
-* `nome_fantasia` — Nome comercial
-* `telefone` — Contato telefônico
-* `email` — E-mail
-* `endereco` — Endereço do restaurante
+* `idRest` (PK) — Identificador único do restaurante
+* `dscRazaoSocialRest` — Nome jurídico da empresa
+* `numCNPJRest` — CNPJ
+* `dscNomeFantasiaRest` — Nome comercial
+* `numTelefoneRest` — Contato telefônico
+* `dscEmailRest` — E-mail
+* `dscEnderecoRest` — Endereço do restaurante contendo: `dscTipoLogradouroRest`, `nomLogradouroRest`, `numLogradouroRest`, `dscComplementoRest`, `dscBairroRest`, `numCepRest`, `dscCidadeRest`, `dscEstadoRest`
 
 ---
 
-## 📋 Entidade: ItemCardapio
+## 📋 Entidade: itemcardapio
 
 Itens disponíveis para venda em cada restaurante.
 
 **Atributos:**
 
-* `id_item` (PK) — Identificador único do item
-* `id_restaurante` (FK) — Restaurante ao qual o item pertence
-* `nome` — Nome do item
-* `descricao` — Descrição do item
-* `preco_unitario` — Preço unitário
-* `disponibilidade` — Status (disponível / esgotado)
+* `idItemc` (PK) — Identificador único do item
+* `idRestauranteItemc` (FK) — Restaurante ao qual o item pertence
+* `dscNomeItemc` — Nome do item
+* `dscInformacaoItemc` — Descrição do item
+* `valPrecoItemc` — Preço unitário
+* `dscDisponibilidadeItemc` — Status (disponível / esgotado)
 
 ---
 
-## 🧾 Entidade: Pedido
+## 🧾 Entidade: pedido
 
 Registra os pedidos feitos pelos clientes.
 
 **Atributos:**
 
-* `id_pedido` (PK) — Identificador do pedido
-* `id_cliente` (FK) — Cliente que realizou o pedido
-* `id_restaurante` (FK) — Restaurante do pedido
-* `id_entregador` (FK) — Entregador responsável (após conclusão)
-* `data_hora` — Data e hora do pedido
-* `valor_produtos` — Soma dos itens
-* `taxa_entrega` — Valor da entrega
-* `valor_total` — Valor final
-* `forma_pagamento` — Método de pagamento
-* `status` — Status do pedido (preparando, a caminho, entregue)
+* `idPed` (PK) — Identificador do pedido
+* `idClientePed` (FK) — Cliente que realizou o pedido
+* `idRestaurantePed` (FK) — Restaurante do pedido
+* `idEntregadorPed` (FK) — Entregador responsável (após conclusão)
+* `datPed` — Data do pedido
+* `horPed` — Hora do pedido
+* `valTaxaentregaPed` — Valor da taxa de entrega
+* `valTotalPed` — Valor final
+* `dscFormapagammentoPed` — Método de pagamento
+* `dscStatusPed` — Status do pedido (preparando, a caminho, entregue)
 
 ---
 
-## 🧩 Entidade: ItemPedido
+## 🧩 Entidade: itempedido
 
 Tabela associativa para representar os itens dentro de um pedido.
 
 **Atributos:**
 
-* `id_item_pedido` (PK) — Identificador
-* `id_pedido` (FK) — Pedido associado
-* `id_item` (FK) — Item do cardápio
-* `quantidade` — Quantidade do item
-* `preco_unitario` — Preço no momento do pedido
+* `idItemp` (PK) — Identificador
+* `idPedidoItemp` (FK) — Pedido associado
+* `idItemItemp` (FK) — Item do cardápio
+* `qtdItemItemp` — Quantidade do item
+* `valPrecoUnitarioItemp` — Preço no momento do pedido
 
 ---
 
-## 🚚 Entidade: Entregador
+## 🚚 Entidade: entregador
 
 Representa os parceiros responsáveis pelas entregas.
 
 **Atributos:**
 
-* `id_entregador` (PK) — Identificador único
-* `nome` — Nome do entregador
-* `cnh` — Número da CNH
-* `placa_veiculo` — Placa do veículo
-* `tipo_veiculo` — Tipo (moto, bicicleta, carro)
-* `telefone` — Contato
+* `idEntrg` (PK) — Identificador único
+* `nomEntrg` — Nome do entregador
+* `numCNHEntrg` — Número da CNH
+* `dscPlacaVeiculoEntrg` — Placa do veículo
+* `DscTipoVeiculoEntrg` — Tipo (moto, bicicleta, carro)
+* `numTelefoneEntrg` — Contato
 
 ---
 
