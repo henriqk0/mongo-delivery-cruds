@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.schemas.entregador import EntregadorCreate
-from app.services.entregador import EntregadorService
+from schemas.entregador import EntregadorCreate
+from services.entregador_services import EntregadorService
 
 router = APIRouter(prefix="/entregador", tags=["Entregadores"])
 

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.entregador_routes import router as entregador_router
+from controllers.entregador_routes import router as entregador_router
 
 app = FastAPI()
 

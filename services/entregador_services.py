@@ -1,6 +1,6 @@
-from app.repositories.entregador_repository import EntregadorRepository
+from repositories.entregador_repository import EntregadorRepository
 
-class EntregadoService:
+class EntregadorService:
 
     @staticmethod
     async def criar_entregador(data):

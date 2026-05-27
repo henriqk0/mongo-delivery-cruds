@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.db.mongodb import get_entregador_collection
+from db.mongodb import get_entregador_collection
 from bson import ObjectId
 
 class EntregadorRepository:
