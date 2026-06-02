@@ -1,18 +1,19 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
 
-class EntregadorCreate(BaseModel):
-    nomEntrg: str
-    numCNHEntrg: str
-    dscPlacaVeiculoEntrg: str
-    dscTipoVeiculoEntrg: str
-    numTelefoneEntrg: str
 
-class EntregadorResponse(BaseModel):
-    id: str
-    nomEntrg: str
-    numCNHEntrg: str
-    dscPlacaVeiculoEntrg: str
-    dscTipoVeiculoEntrg: str
-    numTelefoneEntrg: str
+class ItemCardapioCreate(BaseModel):
+    idRestauranteItemc: str
+    dscNomeItemc: str
+    dscInformacaoItemc: Optional[str] = None
+    valPrecoItemc: float
+    dscDisponibilidadeItemc: str
+
+
+class ItemCardapioResponse(BaseModel):
+    idItemc: str
+    idRestauranteItemc: str
+    dscNomeItemc: str
+    dscInformacaoItemc: Optional[str] = None
+    valPrecoItemc: float
+    dscDisponibilidadeItemc: str

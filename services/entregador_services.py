@@ -15,5 +15,9 @@ class EntregadorService:
         return await EntregadorRepository.buscar_por_id(id)
 
     @staticmethod
+    async def atualizar_entregador(id: str, data):
+        return await EntregadorRepository.atualizar(id, data)
+
+    @staticmethod
     async def deletar_entregador(id: str):
         return await EntregadorRepository.deletar(id)

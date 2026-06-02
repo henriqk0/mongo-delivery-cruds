@@ -1,32 +1,31 @@
-from datetime import datetime
-from db.mongodb import get_entregador_collection
+from db.mongodb import get_item_pedido_collection
 from bson import ObjectId
 
-class EntregadorRepository:
+class ItemPedidoRepository:
 
     @staticmethod
     async def criar(data: dict):
-        collection = get_entregador_collection()
+        collection = get_item_pedido_collection()
         result = await collection.insert_one(data)
         data["_id"] = result.inserted_id
         return data
 
     @staticmethod
     async def listar():
-        collection = get_entregador_collection()
-        anotacoes = []
+        collection = get_item_pedido_collection()
+        documentos = []
         async for doc in collection.find():
-            anotacoes.append(doc)
-        return anotacoes
+            documentos.append(doc)
+        return documentos
 
     @staticmethod
     async def buscar_por_id(id: str):
-        collection = get_entregador_collection()
+        collection = get_item_pedido_collection()
         return await collection.find_one({"_id": ObjectId(id)})
 
     @staticmethod
     async def atualizar(id: str, data: dict):
-        collection = get_entregador_collection()
+        collection = get_item_pedido_collection()
         result = await collection.update_one({"_id": ObjectId(id)}, {"$set": data})
         if result.matched_count:
             return await collection.find_one({"_id": ObjectId(id)})
@@ -34,5 +33,5 @@ class EntregadorRepository:
 
     @staticmethod
     async def deletar(id: str):
-        collection = get_entregador_collection()
+        collection = get_item_pedido_collection()
         return await collection.delete_one({"_id": ObjectId(id)})

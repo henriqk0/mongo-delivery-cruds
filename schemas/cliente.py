@@ -1,33 +1,30 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
 
 
-class Endereco(BaseModel):
-    dscTipoLogradouroRest: Optional[str] = None
-    nomLogradouroRest: str
-    numLogradouroRest: Optional[str] = None
-    dscComplementoRest: Optional[str] = None
-    dscBairroRest: Optional[str] = None
-    numCepRest: Optional[str] = None
-    dscCidadeRest: Optional[str] = None
-    dscEstadoRest: Optional[str] = None
+class EnderecoCliente(BaseModel):
+    dscTipoLogradouroClnt: Optional[str] = None
+    nomLogradouroClnt: str
+    numLogradouroClnt: Optional[str] = None
+    dscComplementoClnt: Optional[str] = None
+    dscBairroClnt: Optional[str] = None
+    numCepClnt: Optional[str] = None
+    dscCidadeClnt: Optional[str] = None
+    dscEstadoClnt: Optional[str] = None
 
 
-class RestauranteCreate(BaseModel):
-    idRest: Optional[str] = None
-    dscRazaoSocialRest: str
-    numCNPJRest: str = Field(..., min_length=14, max_length=18)
-    dscNomeFantasiaRest: Optional[str] = None
-    numTelefoneRest: Optional[str] = None
-    dscEmailRest: Optional[str] = None
-    dscEnderecoRest: Endereco
+class ClienteCreate(BaseModel):
+    nomClnt: str
+    numCPFClnt: str
+    numTelefoneClnt: str
+    dscEmailClnt: str
+    dscEnderecoClnt: EnderecoCliente
 
 
-class RestauranteResponse(BaseModel):
-    idRest: str
-    dscRazaoSocialRest: str
-    numCNPJRest: str
-    dscNomeFantasiaRest: Optional[str] = None
-    numTelefoneRest: Optional[str] = None
-    dscEmailRest: Optional[str] = None
-    dscEnderecoRest: Endereco
+class ClienteResponse(BaseModel):
+    idClnt: str
+    nomClnt: str
+    numCPFClnt: str
+    numTelefoneClnt: str
+    dscEmailClnt: str
+    dscEnderecoClnt: EnderecoCliente

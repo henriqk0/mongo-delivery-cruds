@@ -36,6 +36,14 @@ async def buscar(id: str):
     return serialize(entregador)
 
 
+@router.put("/{id}")
+async def atualizar(id: str, entregador: EntregadorCreate):
+    result = await EntregadorService.atualizar_entregador(id, entregador.dict())
+    if not result:
+        raise HTTPException(status_code=404, detail="Não encontrado")
+    return serialize(result)
+
+
 @router.delete("/{id}")
 async def deletar(id: str):
     result = await EntregadorService.deletar_entregador(id)
