@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Utensils, ClipboardList, ShoppingCart, Bike, Home } from 'lucide-react';
+import { Users, Utensils, ClipboardList, ShoppingCart, Bike } from 'lucide-react';
 
 const HomePage: React.FC = () => {
   const entities = [

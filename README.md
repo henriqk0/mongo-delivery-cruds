@@ -122,3 +122,45 @@ Representa os parceiros responsáveis pelas entregas.
 
 Essa modelagem garante organização, escalabilidade e integridade dos dados, permitindo o funcionamento eficiente de um sistema de delivery.
 
+---
+
+## 🚀 Execução
+
+### Backend (FastAPI)
+
+```bash
+# Criar ambiente virtual
+make venv
+
+# Instalar dependências
+make install
+
+# Executar
+make run
+```
+
+O servidor iniciará em `http://localhost:8000`.
+
+### Frontend (React + TypeScript)
+
+```bash
+# Instalar dependências
+make frontend-install
+
+# Executar
+make frontend-start
+```
+
+O frontend iniciará em `http://localhost:3000`.
+
+### Variáveis de ambiente
+
+Crie um arquivo `backend/.env` com:
+
+```env
+MONGO_URI="<sua-string-de-conexao-mongodb>"
+ALLOWED_ORIGIN=http://localhost:3000
+```
+
+`ALLOWED_ORIGIN` define quais origens têm permissão CORS (padrão: `http://localhost:3000`). Múltiplas origens podem ser separadas por vírgula.
+

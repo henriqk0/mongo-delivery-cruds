@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from backend.schemas.item_cardapio import ItemCardapioCreate
 from backend.services.item_cardapio_services import ItemCardapioService
 
-router = APIRouter(prefix="/item-cardapio", tags=["Itens do Cardápio"])
+router = APIRouter(prefix="/item_cardapio", tags=["Itens do Cardápio"])
 
 
 def serialize(doc):
