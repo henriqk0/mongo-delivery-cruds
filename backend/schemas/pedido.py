@@ -7,14 +7,16 @@ class PedidoCreate(BaseModel):
     idClientePed: str
     idRestaurantePed: str
     idEntregadorPed: Optional[str] = None
+    datPed: str
+    horPed: str
     valTaxaentregaPed: float
-    valTotalPed: float
+    valTotalPed: float = 0
     dscFormapagammentoPed: str
     dscStatusPed: str
 
 
 class PedidoResponse(BaseModel):
-    idPed: str
+    _id: str
     idClientePed: str
     idRestaurantePed: str
     idEntregadorPed: Optional[str] = None

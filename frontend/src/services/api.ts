@@ -51,5 +51,12 @@ export const entregadoresAPI = {
   deletar: (id: string) => request<any>('DELETE', `/entregador/${id}`),
 };
 
+export const itensPedidoAPI = {
+  listar: () => request<any[]>('GET', '/item-pedido/'),
+  criar: (data: any) => request<any>('POST', '/item-pedido/', data),
+  buscar: (id: string) => request<any>('GET', `/item-pedido/${id}`),
+  deletar: (id: string) => request<any>('DELETE', `/item-pedido/${id}`),
+};
+
 const api = { request };
 export default api;

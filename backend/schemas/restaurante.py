@@ -14,7 +14,6 @@ class Endereco(BaseModel):
 
 
 class RestauranteCreate(BaseModel):
-    idRest: Optional[str] = None
     dscRazaoSocialRest: str
     numCNPJRest: str = Field(..., min_length=14, max_length=18)
     dscNomeFantasiaRest: Optional[str] = None
@@ -24,7 +23,7 @@ class RestauranteCreate(BaseModel):
 
 
 class RestauranteResponse(BaseModel):
-    idRest: str
+    _id: str
     dscRazaoSocialRest: str
     numCNPJRest: str
     dscNomeFantasiaRest: Optional[str] = None

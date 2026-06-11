@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import Optional
-from datetime import datetime
+from pydantic import BaseModel
+
 
 class EntregadorCreate(BaseModel):
     nomEntrg: str
@@ -9,8 +8,9 @@ class EntregadorCreate(BaseModel):
     dscTipoVeiculoEntrg: str
     numTelefoneEntrg: str
 
+
 class EntregadorResponse(BaseModel):
-    id: str
+    _id: str
     nomEntrg: str
     numCNHEntrg: str
     dscPlacaVeiculoEntrg: str

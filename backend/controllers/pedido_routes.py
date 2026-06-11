@@ -7,16 +7,16 @@ router = APIRouter(prefix="/pedido", tags=["Pedidos"])
 
 def serialize(doc):
     return {
-        "idPed": str(doc["_id"]),
-        "idClientePed": doc["idClientePed"],
-        "idRestaurantePed": doc["idRestaurantePed"],
+        "_id": str(doc["_id"]),
+        "idClientePed": doc.get("idClientePed", ""),
+        "idRestaurantePed": doc.get("idRestaurantePed", ""),
         "idEntregadorPed": doc.get("idEntregadorPed"),
-        "datPed": doc["datPed"],
-        "horPed": doc["horPed"],
-        "valTaxaentregaPed": doc["valTaxaentregaPed"],
-        "valTotalPed": doc["valTotalPed"],
-        "dscFormapagammentoPed": doc["dscFormapagammentoPed"],
-        "dscStatusPed": doc["dscStatusPed"],
+        "datPed": doc.get("datPed", ""),
+        "horPed": doc.get("horPed", ""),
+        "valTaxaentregaPed": doc.get("valTaxaentregaPed", 0.0),
+        "valTotalPed": doc.get("valTotalPed", 0.0),
+        "dscFormapagammentoPed": doc.get("dscFormapagammentoPed", ""),
+        "dscStatusPed": doc.get("dscStatusPed", ""),
     }
 
 

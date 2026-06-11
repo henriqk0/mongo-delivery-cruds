@@ -12,7 +12,7 @@ Armazena as informações dos usuários que realizam pedidos.
 
 **Atributos:**
 
-* `idClnt` (PK) — Identificador único do cliente
+* `_id` (PK) — Identificador único do cliente (MongoDB)
 * `nomClnt` — Nome completo
 * `numCPFClnt` — CPF do cliente
 * `numTelefoneClnt` — Número de telefone
@@ -27,7 +27,7 @@ Representa os estabelecimentos cadastrados na plataforma.
 
 **Atributos:**
 
-* `idRest` (PK) — Identificador único do restaurante
+* `_id` (PK) — Identificador único do restaurante (MongoDB)
 * `dscRazaoSocialRest` — Nome jurídico da empresa
 * `numCNPJRest` — CNPJ
 * `dscNomeFantasiaRest` — Nome comercial
@@ -43,7 +43,7 @@ Itens disponíveis para venda em cada restaurante.
 
 **Atributos:**
 
-* `idItemc` (PK) — Identificador único do item
+* `_id` (PK) — Identificador único do item (MongoDB)
 * `idRestauranteItemc` (FK) — Restaurante ao qual o item pertence
 * `dscNomeItemc` — Nome do item
 * `dscInformacaoItemc` — Descrição do item
@@ -58,14 +58,14 @@ Registra os pedidos feitos pelos clientes.
 
 **Atributos:**
 
-* `idPed` (PK) — Identificador do pedido
+* `_id` (PK) — Identificador do pedido (MongoDB)
 * `idClientePed` (FK) — Cliente que realizou o pedido
 * `idRestaurantePed` (FK) — Restaurante do pedido
 * `idEntregadorPed` (FK) — Entregador responsável (após conclusão)
 * `datPed` — Data do pedido
 * `horPed` — Hora do pedido
 * `valTaxaentregaPed` — Valor da taxa de entrega
-* `valTotalPed` — Valor final
+* `valTotalPed` — Valor final (calculado automaticamente)
 * `dscFormapagammentoPed` — Método de pagamento
 * `dscStatusPed` — Status do pedido (preparando, a caminho, entregue)
 
@@ -77,7 +77,7 @@ Tabela associativa para representar os itens dentro de um pedido.
 
 **Atributos:**
 
-* `idItemp` (PK) — Identificador
+* `_id` (PK) — Identificador (MongoDB)
 * `idPedidoItemp` (FK) — Pedido associado
 * `idItemItemp` (FK) — Item do cardápio
 * `qtdItemItemp` — Quantidade do item
@@ -91,11 +91,11 @@ Representa os parceiros responsáveis pelas entregas.
 
 **Atributos:**
 
-* `idEntrg` (PK) — Identificador único
+* `_id` (PK) — Identificador único (MongoDB)
 * `nomEntrg` — Nome do entregador
 * `numCNHEntrg` — Número da CNH
 * `dscPlacaVeiculoEntrg` — Placa do veículo
-* `DscTipoVeiculoEntrg` — Tipo (moto, bicicleta, carro)
+* `dscTipoVeiculoEntrg` — Tipo (moto, bicicleta, carro)
 * `numTelefoneEntrg` — Contato
 
 ---
@@ -154,6 +154,15 @@ make frontend-start
 O frontend iniciará em `http://localhost:3000`.
 
 ### Variáveis de ambiente
+
+Crie um arquivo `frontend/.env.local` com: 
+
+```env
+VITE_BACKEND_URL=http://localhost:8000
+```
+
+`VITE_BACKEND_URL` define o endereço para o qual o frontend fará as requisições.
+
 
 Crie um arquivo `backend/.env` com:
 

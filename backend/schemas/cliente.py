@@ -22,7 +22,7 @@ class ClienteCreate(BaseModel):
 
 
 class ClienteResponse(BaseModel):
-    idClnt: str
+    _id: str
     nomClnt: str
     numCPFClnt: str
     numTelefoneClnt: str

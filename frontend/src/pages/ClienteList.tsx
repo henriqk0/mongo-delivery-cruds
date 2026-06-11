@@ -29,7 +29,7 @@ const ClienteList: React.FC = () => {
     if (window.confirm('Tem certeza que deseja excluir este cliente?')) {
       try {
         await clientesAPI.deletar(id);
-        setClientes(clientes.filter(cliente => cliente.idClnt !== id));
+        setClientes(clientes.filter(cliente => cliente._id !== id));
       } catch (err) {
         setError('Erro ao excluir cliente');
         console.error(err);
@@ -80,20 +80,20 @@ const ClienteList: React.FC = () => {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {clientes.map((cliente) => (
             <div
-              key={cliente.idClnt}
+              key={cliente._id}
               className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
             >
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-lg font-semibold text-gray-800">{cliente.nomClnt}</h3>
                 <div className="flex gap-2">
                   <Link
-                    to={`/clientes/${cliente.idClnt}/editar`}
+                    to={`/clientes/${cliente._id}/editar`}
                     className="text-yellow-600 hover:text-yellow-700 p-1"
                   >
                     <Edit2 className="h-4 w-4" />
                   </Link>
                   <button
-                    onClick={() => handleDelete(cliente.idClnt)}
+                    onClick={() => handleDelete(cliente._id)}
                     className="text-red-500 hover:text-red-700 p-1"
                   >
                     <Trash2 className="h-4 w-4" />

@@ -113,7 +113,7 @@ const ItemCardapioForm: React.FC = () => {
           >
             <option value="">Selecione um restaurante</option>
             {restaurantes.map((restaurante: any) => (
-              <option key={restaurante.idRest} value={restaurante.idRest}>
+              <option key={restaurante._id} value={restaurante._id}>
                 {restaurante.dscNomeFantasiaRest || restaurante.dscRazaoSocialRest}
               </option>
             ))}

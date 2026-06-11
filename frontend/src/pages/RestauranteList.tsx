@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { restaurantesAPI } from '../services/api';
-import { Trash2, Edit2, Utensils, MapPin, Phone, Clock, PlusCircle } from 'lucide-react';
+import { Trash2, Edit2, Utensils, MapPin, Phone, PlusCircle } from 'lucide-react';
 
 const RestauranteList: React.FC = () => {
   const [restaurantes, setRestaurantes] = useState<any[]>([]);
@@ -29,7 +29,7 @@ const RestauranteList: React.FC = () => {
     if (window.confirm('Tem certeza que deseja excluir este restaurante?')) {
       try {
         await restaurantesAPI.deletar(id);
-        setRestaurantes(restaurantes.filter(restaurante => restaurante.idRest !== id));
+        setRestaurantes(restaurantes.filter(restaurante => restaurante._id !== id));
       } catch (err) {
         setError('Erro ao excluir restaurante');
         console.error(err);
@@ -80,20 +80,22 @@ const RestauranteList: React.FC = () => {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {restaurantes.map((restaurante) => (
             <div
-              key={restaurante.idRest}
+              key={restaurante._id}
               className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
             >
               <div className="flex justify-between items-start mb-3">
-                <h3 className="text-lg font-semibold text-gray-800">{restaurante.nomRest}</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {restaurante.dscNomeFantasiaRest || restaurante.dscRazaoSocialRest}
+                </h3>
                 <div className="flex gap-2">
                   <Link
-                    to={`/restaurantes/${restaurante.idRest}/editar`}
+                    to={`/restaurantes/${restaurante._id}/editar`}
                     className="text-yellow-600 hover:text-yellow-700 p-1"
                   >
                     <Edit2 className="h-4 w-4" />
                   </Link>
                   <button
-                    onClick={() => handleDelete(restaurante.idRest)}
+                    onClick={() => handleDelete(restaurante._id)}
                     className="text-red-500 hover:text-red-700 p-1"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -102,12 +104,6 @@ const RestauranteList: React.FC = () => {
               </div>
 
               <div className="space-y-2 text-sm text-gray-600">
-                {restaurante.dscTipoCozinhaRest && (
-                  <div className="flex items-center gap-2">
-                    <Utensils className="h-4 w-4 text-gray-400" />
-                    <span>{restaurante.dscTipoCozinhaRest}</span>
-                  </div>
-                )}
                 {restaurante.numTelefoneRest && (
                   <div className="flex items-center gap-2">
                     <Phone className="h-4 w-4 text-gray-400" />
@@ -120,12 +116,6 @@ const RestauranteList: React.FC = () => {
                     <span>
                       {restaurante.dscEnderecoRest.nomLogradouroRest}, {restaurante.dscEnderecoRest.numLogradouroRest}
                     </span>
-                  </div>
-                )}
-                {restaurante.horarioAberturaRest && restaurante.horarioFechamentoRest && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-gray-400" />
-                    <span>{restaurante.horarioAberturaRest} - {restaurante.horarioFechamentoRest}</span>
                   </div>
                 )}
               </div>

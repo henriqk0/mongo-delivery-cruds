@@ -1,35 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { pedidosAPI } from '../services/api';
-import { Trash2, Edit2, ShoppingCart, Calendar, DollarSign, User, PlusCircle } from 'lucide-react';
+import { pedidosAPI, restaurantesAPI, clientesAPI } from '../services/api';
+import { Trash2, Edit2, ShoppingCart, Calendar, DollarSign, PlusCircle } from 'lucide-react';
 
 const PedidoList: React.FC = () => {
   const [pedidos, setPedidos] = useState<any[]>([]);
+  const [restaurantes, setRestaurantes] = useState<any[]>([]);
+  const [clientes, setClientes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filtroRestaurante, setFiltroRestaurante] = useState('');
 
   useEffect(() => {
-    const fetchPedidos = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await pedidosAPI.listar();
-        setPedidos(response.data);
+        const [pedidosRes, restaurantesRes, clientesRes] = await Promise.all([
+          pedidosAPI.listar(),
+          restaurantesAPI.listar(),
+          clientesAPI.listar(),
+        ]);
+        setPedidos(pedidosRes.data);
+        setRestaurantes(restaurantesRes.data);
+        setClientes(clientesRes.data);
       } catch (err) {
-        setError('Erro ao carregar pedidos');
+        setError('Erro ao carregar dados');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPedidos();
+    fetchData();
   }, []);
+
+  const restauranteMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    restaurantes.forEach(r => {
+      map[r._id] = r.dscNomeFantasiaRest || r.dscRazaoSocialRest;
+    });
+    return map;
+  }, [restaurantes]);
+
+  const clienteMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    clientes.forEach(c => {
+      map[c._id] = c.nomClnt;
+    });
+    return map;
+  }, [clientes]);
+
+  const pedidosFiltrados = useMemo(() => {
+    if (!filtroRestaurante) return pedidos;
+    return pedidos.filter(p => p.idRestaurantePed === filtroRestaurante);
+  }, [pedidos, filtroRestaurante]);
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja excluir este pedido?')) {
       try {
         await pedidosAPI.deletar(id);
-        setPedidos(pedidos.filter(pedido => pedido.idPed !== id));
+        setPedidos(pedidos.filter(pedido => pedido._id !== id));
       } catch (err) {
         setError('Erro ao excluir pedido');
         console.error(err);
@@ -39,9 +69,9 @@ const PedidoList: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
-      case 'pendente':
+      case 'preparando':
         return 'bg-yellow-100 text-yellow-800';
-      case 'em andamento':
+      case 'a caminho':
         return 'bg-blue-100 text-blue-800';
       case 'entregue':
         return 'bg-green-100 text-green-800';
@@ -65,13 +95,27 @@ const PedidoList: React.FC = () => {
           <ShoppingCart className="h-6 w-6 mr-2 text-yellow-500" />
           Pedidos
         </h1>
-        <Link
-          to="/pedidos/novo"
-          className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors flex items-center gap-2 w sm:w-auto"
-        >
-          <PlusCircle className="h-4 w-4" />
-          Novo Pedido
-        </Link>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <select
+            value={filtroRestaurante}
+            onChange={e => setFiltroRestaurante(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          >
+            <option value="">Todos os restaurantes</option>
+            {restaurantes.map(r => (
+              <option key={r._id} value={r._id}>
+                {r.dscNomeFantasiaRest || r.dscRazaoSocialRest}
+              </option>
+            ))}
+          </select>
+          <Link
+            to="/pedidos/novo"
+            className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors flex items-center gap-2 whitespace-nowrap"
+          >
+            <PlusCircle className="h-4 w-4" />
+            Novo Pedido
+          </Link>
+        </div>
       </div>
 
       {error && (
@@ -80,42 +124,46 @@ const PedidoList: React.FC = () => {
         </div>
       )}
 
-      {pedidos.length === 0 ? (
+      {pedidosFiltrados.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
           <ShoppingCart className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg mb-4">Nenhum pedido cadastrado.</p>
-          <Link
-            to="/pedidos/novo"
-            className="inline-block bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition-colors"
-          >
-            Criar Primeiro Pedido
-          </Link>
+          <p className="text-gray-500 text-lg mb-4">
+            {filtroRestaurante ? 'Nenhum pedido encontrado para este restaurante.' : 'Nenhum pedido cadastrado.'}
+          </p>
+          {!filtroRestaurante && (
+            <Link
+              to="/pedidos/novo"
+              className="inline-block bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition-colors"
+            >
+              Criar Primeiro Pedido
+            </Link>
+          )}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {pedidos.map((pedido) => (
+          {pedidosFiltrados.map((pedido) => (
             <div
-              key={pedido.idPed}
+              key={pedido._id}
               className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
             >
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Pedido #{pedido.idPed?.slice(-6)}</h3>
-                  {pedido.indStatusPed && (
-                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-1 ${getStatusColor(pedido.indStatusPed)}`}>
-                      {pedido.indStatusPed}
+                  <h3 className="text-lg font-semibold text-gray-800">Pedido #{pedido._id?.slice(-6)}</h3>
+                  {pedido.dscStatusPed && (
+                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-1 ${getStatusColor(pedido.dscStatusPed)}`}>
+                      {pedido.dscStatusPed}
                     </span>
                   )}
                 </div>
                 <div className="flex gap-2">
                   <Link
-                    to={`/pedidos/${pedido.idPed}/editar`}
+                    to={`/pedidos/${pedido._id}/editar`}
                     className="text-yellow-600 hover:text-yellow-700 p-1"
                   >
                     <Edit2 className="h-4 w-4" />
                   </Link>
                   <button
-                    onClick={() => handleDelete(pedido.idPed)}
+                    onClick={() => handleDelete(pedido._id)}
                     className="text-red-500 hover:text-red-700 p-1"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -124,23 +172,27 @@ const PedidoList: React.FC = () => {
               </div>
 
               <div className="space-y-2 text-sm text-gray-600">
-                {pedido.idClntRefPed && (
-                  <div className="flex items-center gap-2">
-                    <User className="h-4 w-4 text-gray-400" />
-                    <span>Cliente: {pedido.idClntRefPed}</span>
-                  </div>
+                {pedido.idRestaurantePed && (
+                  <p className="font-medium text-gray-800">
+                    {restauranteMap[pedido.idRestaurantePed] || 'Restaurante desconhecido'}
+                  </p>
                 )}
-                {pedido.dthCriacaoPed && (
+                {pedido.idClientePed && (
+                  <p className="text-gray-500">
+                    Cliente: {clienteMap[pedido.idClientePed] || pedido.idClientePed}
+                  </p>
+                )}
+                {pedido.datPed && (
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-gray-400" />
-                    <span>{new Date(pedido.dthCriacaoPed).toLocaleDateString('pt-BR')}</span>
+                    <span>{pedido.datPed}</span>
                   </div>
                 )}
-                {pedido.vlrTotalPed !== undefined && (
+                {pedido.valTotalPed !== undefined && (
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-4 w-4 text-gray-400" />
                     <span className="font-medium text-yellow-600">
-                      R$ {pedido.vlrTotalPed.toFixed(2).replace('.', ',')}
+                      R$ {pedido.valTotalPed.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                 )}

@@ -11,7 +11,7 @@ class ItemCardapioCreate(BaseModel):
 
 
 class ItemCardapioResponse(BaseModel):
-    idItemc: str
+    _id: str
     idRestauranteItemc: str
     dscNomeItemc: str
     dscInformacaoItemc: Optional[str] = None

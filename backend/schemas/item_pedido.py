@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import Optional
 
 
 class ItemPedidoCreate(BaseModel):
@@ -10,7 +9,7 @@ class ItemPedidoCreate(BaseModel):
 
 
 class ItemPedidoResponse(BaseModel):
-    idItemp: str
+    _id: str
     idPedidoItemp: str
     idItemItemp: str
     qtdItemItemp: int

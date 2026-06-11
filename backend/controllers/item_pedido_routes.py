@@ -7,7 +7,7 @@ router = APIRouter(prefix="/item-pedido", tags=["Itens do Pedido"])
 
 def serialize(doc):
     return {
-        "idItemp": str(doc["_id"]),
+        "_id": str(doc["_id"]),
         "idPedidoItemp": doc["idPedidoItemp"],
         "idItemItemp": doc["idItemItemp"],
         "qtdItemItemp": doc["qtdItemItemp"],

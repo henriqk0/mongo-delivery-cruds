@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { entregadoresAPI } from '../services/api';
-import { Trash2, Edit2, Bike, MapPin, Phone, Mail, PlusCircle } from 'lucide-react';
+import { Trash2, Edit2, Bike, Phone, PlusCircle } from 'lucide-react';
 
 const EntregadorList: React.FC = () => {
   const [entregadores, setEntregadores] = useState<any[]>([]);
@@ -29,7 +29,7 @@ const EntregadorList: React.FC = () => {
     if (window.confirm('Tem certeza que deseja excluir este entregador?')) {
       try {
         await entregadoresAPI.deletar(id);
-        setEntregadores(entregadores.filter(entregador => entregador.idEntrg !== id));
+        setEntregadores(entregadores.filter(entregador => entregador._id !== id));
       } catch (err) {
         setError('Erro ao excluir entregador');
         console.error(err);
@@ -80,20 +80,20 @@ const EntregadorList: React.FC = () => {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {entregadores.map((entregador) => (
             <div
-              key={entregador.idEntrg}
+              key={entregador._id}
               className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
             >
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-lg font-semibold text-gray-800">{entregador.nomEntrg}</h3>
                 <div className="flex gap-2">
                   <Link
-                    to={`/entregadores/${entregador.idEntrg}/editar`}
+                    to={`/entregadores/${entregador._id}/editar`}
                     className="text-yellow-600 hover:text-yellow-700 p-1"
                   >
                     <Edit2 className="h-4 w-4" />
                   </Link>
                   <button
-                    onClick={() => handleDelete(entregador.idEntrg)}
+                    onClick={() => handleDelete(entregador._id)}
                     className="text-red-500 hover:text-red-700 p-1"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -102,32 +102,18 @@ const EntregadorList: React.FC = () => {
               </div>
 
               <div className="space-y-2 text-sm text-gray-600">
-                {entregador.numCPFEntrg && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-400">CPF:</span>
-                    <span>{entregador.numCPFEntrg}</span>
-                  </div>
-                )}
-                {entregador.numTelefoneEntrg && (
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-gray-400" />
-                    <span>{entregador.numTelefoneEntrg}</span>
-                  </div>
-                )}
-                {entregador.dscEmailEntrg && (
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-gray-400" />
-                    <span className="truncate">{entregador.dscEmailEntrg}</span>
-                  </div>
-                )}
-                {entregador.dscEnderecoEntrg && (
-                  <div className="flex items-start gap-2">
-                    <MapPin className="h-4 w-4 text-gray-400 mt-0.5" />
-                    <span>
-                      {entregador.dscEnderecoEntrg.nomLogradouroEntrg}, {entregador.dscEnderecoEntrg.numLogradouroEntrg}
-                    </span>
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-400">CNH:</span>
+                  <span>{entregador.numCNHEntrg}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-400">Veículo:</span>
+                  <span>{entregador.dscTipoVeiculoEntrg} ({entregador.dscPlacaVeiculoEntrg})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-gray-400" />
+                  <span>{entregador.numTelefoneEntrg}</span>
+                </div>
               </div>
             </div>
           ))}

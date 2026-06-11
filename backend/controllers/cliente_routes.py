@@ -8,7 +8,7 @@ router = APIRouter(prefix="/cliente", tags=["Clientes"])
 def serialize(doc):
     endereco = doc.get("dscEnderecoClnt", {})
     return {
-        "idClnt": str(doc["_id"]),
+        "_id": str(doc["_id"]),
         "nomClnt": doc["nomClnt"],
         "numCPFClnt": doc["numCPFClnt"],
         "numTelefoneClnt": doc["numTelefoneClnt"],
